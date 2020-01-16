@@ -30,7 +30,7 @@ import com.example.mycontacts.models.ModelContacts;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FragmentContacts extends Fragment implements ContactsRvAdapter.OnBtnCallContactListener {
+public class FragmentContacts extends Fragment implements ContactsRvAdapter.OnBtnCallContactListener, ContactsRvAdapter.OnBtnStarContactListener {
 
     private RecyclerView recyclerView;
     private Button btnAddContact;
@@ -75,7 +75,7 @@ public class FragmentContacts extends Fragment implements ContactsRvAdapter.OnBt
         RecyclerView.LayoutManager layoutManager = linearLayoutManager;
         recyclerView.setLayoutManager(layoutManager);
 
-        ContactsRvAdapter adapter = new ContactsRvAdapter(getContext(),getContacts(),this);
+        ContactsRvAdapter adapter = new ContactsRvAdapter(getContext(),getContacts(),this,this);
         recyclerView.setAdapter(adapter);
     }
 
@@ -109,6 +109,15 @@ public class FragmentContacts extends Fragment implements ContactsRvAdapter.OnBt
         Intent intent = new Intent(Intent.ACTION_CALL);
         intent.setData(Uri.parse("tel:" + number));
         getActivity().startActivity(intent);
+
+    }
+
+
+
+    @Override
+    public void onBtnStarClick(String number, String name) {
+
+        Log.d("TAG","Name : " + name + " Number : " + number);
 
     }
 

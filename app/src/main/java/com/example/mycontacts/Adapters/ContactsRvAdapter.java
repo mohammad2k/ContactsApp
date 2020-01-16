@@ -21,12 +21,14 @@ public class ContactsRvAdapter extends RecyclerView.Adapter<ContactsRvAdapter.Vi
     private LayoutInflater inflater;
     private List<ModelContacts> mlistContacts;
     private OnBtnCallContactListener monBtnCallContactListener;
+    private OnBtnStarContactListener monBtnStarContactListener;
 
 
-    public ContactsRvAdapter(Context context,List<ModelContacts> listContacts,OnBtnCallContactListener onBtnCallContactListener){
+    public ContactsRvAdapter(Context context,List<ModelContacts> listContacts,OnBtnCallContactListener onBtnCallContactListener, OnBtnStarContactListener onBtnStarContactListener){
         mlistContacts = listContacts;
         mcontext = context;
         monBtnCallContactListener = onBtnCallContactListener;
+        monBtnStarContactListener = onBtnStarContactListener;
     }
 
     @NonNull
@@ -36,7 +38,7 @@ public class ContactsRvAdapter extends RecyclerView.Adapter<ContactsRvAdapter.Vi
         inflater = LayoutInflater.from(mcontext);
 
         View view = inflater.inflate(R.layout.items_contacts,parent,false);
-        ViewHolder viewHolder = new ViewHolder(view,monBtnCallContactListener);
+        ViewHolder viewHolder = new ViewHolder(view,monBtnCallContactListener,monBtnStarContactListener);
 
         return viewHolder;
     }
@@ -63,29 +65,58 @@ public class ContactsRvAdapter extends RecyclerView.Adapter<ContactsRvAdapter.Vi
 
         TextView contact_name,contact_number;
         Button call;
+        Button star;
         OnBtnCallContactListener onBtnCallContactListener;
+        OnBtnStarContactListener onBtnStarContactListener;
 
-        public ViewHolder(@NonNull View itemView,OnBtnCallContactListener onBtnCallContactListener) {
+        public ViewHolder(@NonNull View itemView,OnBtnCallContactListener nonBtnCallContactListener, OnBtnStarContactListener nonBtnStarContactListener) {
             super(itemView);
 
             contact_name = itemView.findViewById(R.id.contact_name);
             contact_number = itemView.findViewById(R.id.contact_number);
             call = itemView.findViewById(R.id.btn_call_contacts);
+            star = itemView.findViewById(R.id.btn_star_contacts);
 
-            this.onBtnCallContactListener = onBtnCallContactListener;
-            call.setOnClickListener(this);
+            this.onBtnCallContactListener = nonBtnCallContactListener;
+            call.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onBtnCallContactListener.onBtnCallClick(mlistContacts.get(getAdapterPosition()).getNumber());
+                }
+            });
+
+            this.onBtnStarContactListener = nonBtnStarContactListener;
+            star.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onBtnStarContactListener.onBtnStarClick(mlistContacts.get(getAdapterPosition()).getNumber()
+                            , mlistContacts.get(getAdapterPosition()).getName());
+                }
+            });
+
 
         }
 
+
         @Override
         public void onClick(View v) {
-            onBtnCallContactListener.onBtnCallClick(mlistContacts.get(getAdapterPosition()).getNumber());
+
+//            onBtnCallContactListener.onBtnCallClick(mlistContacts.get(getAdapterPosition()).getNumber());
+//
+//            onBtnStarContactListener.onBtnStarClick(mlistContacts.get(getAdapterPosition()).getNumber()
+//                    , mlistContacts.get(getAdapterPosition()).getName());
         }
     }
 
     public interface OnBtnCallContactListener{
 
         void onBtnCallClick(String number);
+
+    }
+
+    public interface OnBtnStarContactListener{
+
+        void onBtnStarClick(String number , String name);
 
     }
 }
