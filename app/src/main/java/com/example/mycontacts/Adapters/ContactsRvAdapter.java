@@ -116,7 +116,7 @@ public class ContactsRvAdapter extends RecyclerView.Adapter<ContactsRvAdapter.Vi
 
     public interface OnBtnStarContactListener{
 
-        void onBtnStarClick(String number , String name);
+        void onBtnStarClick(String number , String name );
 
     }
 }

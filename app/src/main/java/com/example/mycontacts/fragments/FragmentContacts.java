@@ -6,7 +6,6 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.CallLog;
 import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,13 +16,11 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mycontacts.Adapters.ContactsRvAdapter;
-import com.example.mycontacts.MainActivity;
 import com.example.mycontacts.R;
 import com.example.mycontacts.models.ModelContacts;
 
@@ -115,9 +112,18 @@ public class FragmentContacts extends Fragment implements ContactsRvAdapter.OnBt
 
 
     @Override
-    public void onBtnStarClick(String number, String name) {
+    public void onBtnStarClick(String number, String name ) {
 
         Log.d("TAG","Name : " + name + " Number : " + number);
+
+//        FavList favList = MyPreferenceManager.getInstance(getActivity()).getFavList();
+//        ModelContacts newfav = new ModelContacts(name,number);
+//        newfav.setNumber(number);
+//        newfav.setName(name);
+//        favList.addContactToList(newfav);
+//        MyPreferenceManager.getInstance(getActivity()).putFavList(favList);
+
+
 
     }
 
