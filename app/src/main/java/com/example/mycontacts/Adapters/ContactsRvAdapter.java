@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.mycontacts.MyPreferenceManager;
 import com.example.mycontacts.R;
 import com.example.mycontacts.models.ModelContacts;
 
@@ -47,12 +48,21 @@ public class ContactsRvAdapter extends RecyclerView.Adapter<ContactsRvAdapter.Vi
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         TextView contact_name,contact_number;
+        Button starBtn;
 
         contact_name = holder.contact_name;
         contact_number = holder.contact_number;
+        starBtn = holder.star;
+
+        if (mlistContacts.get(position).getStar()== true){
+            starBtn.setBackgroundResource(R.drawable.ic_star_24dp);
+        }else if (mlistContacts.get(position).getStar()== false){
+            starBtn.setBackgroundResource(R.drawable.ic_star_border_24dp);
+        }
 
         contact_name.setText(mlistContacts.get(position).getName());
         contact_number.setText(mlistContacts.get(position).getNumber());
+
     }
 
 
@@ -77,6 +87,7 @@ public class ContactsRvAdapter extends RecyclerView.Adapter<ContactsRvAdapter.Vi
             call = itemView.findViewById(R.id.btn_call_contacts);
             star = itemView.findViewById(R.id.btn_star_contacts);
 
+
             this.onBtnCallContactListener = nonBtnCallContactListener;
             call.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -90,7 +101,7 @@ public class ContactsRvAdapter extends RecyclerView.Adapter<ContactsRvAdapter.Vi
                 @Override
                 public void onClick(View v) {
                     onBtnStarContactListener.onBtnStarClick(mlistContacts.get(getAdapterPosition()).getNumber()
-                            , mlistContacts.get(getAdapterPosition()).getName());
+                            , mlistContacts.get(getAdapterPosition()).getName(),getAdapterPosition(),star);
                 }
             });
 
@@ -116,7 +127,7 @@ public class ContactsRvAdapter extends RecyclerView.Adapter<ContactsRvAdapter.Vi
 
     public interface OnBtnStarContactListener{
 
-        void onBtnStarClick(String number , String name );
+        void onBtnStarClick(String number , String name , int position , Button starBtn);
 
     }
 }

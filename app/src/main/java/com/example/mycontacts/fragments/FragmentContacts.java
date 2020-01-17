@@ -4,7 +4,9 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
@@ -13,14 +15,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mycontacts.Adapters.ContactsRvAdapter;
+import com.example.mycontacts.MyPreferenceManager;
 import com.example.mycontacts.R;
 import com.example.mycontacts.models.ModelContacts;
 
@@ -31,6 +36,9 @@ public class FragmentContacts extends Fragment implements ContactsRvAdapter.OnBt
 
     private RecyclerView recyclerView;
     private Button btnAddContact;
+    private ContactsRvAdapter adapter;
+    private List<ModelContacts> list = new ArrayList<>();
+
 
     public FragmentContacts() {
     }
@@ -46,10 +54,108 @@ public class FragmentContacts extends Fragment implements ContactsRvAdapter.OnBt
         super.onViewCreated(view, savedInstanceState);
 
         findViews(view);
-        setContactsAdapter();
+        startContactController();
         clickOnAddContactBtn();
 
     }
+
+
+    private void startContactController(){
+
+        if (MyPreferenceManager.getInstance(getActivity()).getContactList() == null){
+
+            setContactsAdapter();
+        }else {
+
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+            RecyclerView.LayoutManager layoutManager = linearLayoutManager;
+            recyclerView.setLayoutManager(layoutManager);
+
+            adapter = new ContactsRvAdapter(getContext(),MyPreferenceManager.getInstance(getActivity()).getContactList(),this,this);
+            recyclerView.setAdapter(adapter);
+
+
+        }
+    }
+
+
+    private void setContactsAdapter(){
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        RecyclerView.LayoutManager layoutManager = linearLayoutManager;
+        recyclerView.setLayoutManager(layoutManager);
+
+        adapter = new ContactsRvAdapter(getContext(),getContacts(),this,this);
+        recyclerView.setAdapter(adapter);
+
+    }
+
+
+    private List<ModelContacts> getContacts(){
+
+        Cursor cursor = getContext().getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
+                null, null, ContactsContract.Contacts.DISPLAY_NAME + " ASC");
+
+        cursor.moveToFirst();
+        while (cursor.moveToNext()){
+
+            list.add(new ModelContacts(cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME
+                    )),cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)),false));
+
+            Log.d("TAG", "contacts ok " + cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)));
+        }
+
+        MyPreferenceManager.getInstance(getActivity()).putContactList(list);
+
+        list.clear();
+        list.addAll(MyPreferenceManager.getInstance(getActivity()).getContactList());
+        return list;
+    }
+
+
+    @Override
+    public void onBtnCallClick(String number) {
+
+        if (ActivityCompat.checkSelfPermission(getContext(),Manifest.permission.CALL_PHONE)!= PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(getActivity(),new String[]{Manifest.permission.CALL_PHONE},123);
+
+        }
+
+        Intent intent = new Intent(Intent.ACTION_CALL);
+        intent.setData(Uri.parse("tel:" + number));
+        getActivity().startActivity(intent);
+
+    }
+
+
+    @Override
+    public void onBtnStarClick(String number, String name , int position, Button starBtn) {
+
+        List<ModelContacts> list = MyPreferenceManager.getInstance(getActivity()).getContactList();
+
+        Log.d("TAG","Name : " + name + " Number : " + number + "star : " + list.get(position).getStar());
+
+        if (list.get(position).getStar() == false){
+
+            list.get(position).setStar(true);
+            MyPreferenceManager.getInstance(getActivity()).putContactList(list);
+            starBtn.setBackgroundResource(R.drawable.ic_star_24dp);
+            adapter.notifyDataSetChanged();
+            startContactController();
+
+        }else {
+
+            list.get(position).setStar(false);
+            MyPreferenceManager.getInstance(getActivity()).putContactList(list);
+            starBtn.setBackgroundResource(R.drawable.ic_star_border_24dp);
+            adapter.notifyDataSetChanged();
+            startContactController();
+
+        }
+
+        Log.d("TAG","Name : " + name + " Number : " + number + "star : " + list.get(position).getStar());
+
+    }
+
 
     private void clickOnAddContactBtn(){
 
@@ -67,69 +173,9 @@ public class FragmentContacts extends Fragment implements ContactsRvAdapter.OnBt
 
     }
 
-    private void setContactsAdapter(){
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        RecyclerView.LayoutManager layoutManager = linearLayoutManager;
-        recyclerView.setLayoutManager(layoutManager);
-
-        ContactsRvAdapter adapter = new ContactsRvAdapter(getContext(),getContacts(),this,this);
-        recyclerView.setAdapter(adapter);
-    }
-
-
-    private List<ModelContacts> getContacts(){
-
-        List<ModelContacts> list = new ArrayList<>();
-
-        Cursor cursor = getContext().getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
-                null, null, ContactsContract.Contacts.DISPLAY_NAME + " ASC");
-
-        cursor.moveToFirst();
-        while (cursor.moveToNext()){
-
-            list.add(new ModelContacts(cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME
-                    )),cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))));
-
-            Log.d("TAG", "contacts ok " + cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)));
-        }
-        return list;
-    }
-
-    @Override
-    public void onBtnCallClick(String number) {
-
-        if (ActivityCompat.checkSelfPermission(getContext(),Manifest.permission.CALL_PHONE)!= PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(getActivity(),new String[]{Manifest.permission.CALL_PHONE},123);
-
-        }
-
-        Intent intent = new Intent(Intent.ACTION_CALL);
-        intent.setData(Uri.parse("tel:" + number));
-        getActivity().startActivity(intent);
-
-    }
-
-
-
-    @Override
-    public void onBtnStarClick(String number, String name ) {
-
-        Log.d("TAG","Name : " + name + " Number : " + number);
-
-//        FavList favList = MyPreferenceManager.getInstance(getActivity()).getFavList();
-//        ModelContacts newfav = new ModelContacts(name,number);
-//        newfav.setNumber(number);
-//        newfav.setName(name);
-//        favList.addContactToList(newfav);
-//        MyPreferenceManager.getInstance(getActivity()).putFavList(favList);
-
-
-
-    }
-
 
     private void findViews(View view){
         recyclerView = view.findViewById(R.id.rv_contacts);
-        btnAddContact = view.findViewById(R.id.btn_add_contact);
+        btnAddContact = view.findViewById(R.id.btn_add_contact);startContactController();
     }
 }
