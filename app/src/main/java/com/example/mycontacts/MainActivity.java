@@ -3,6 +3,7 @@ package com.example.mycontacts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import android.Manifest;
@@ -35,12 +36,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void setViewPagerAdapter(){
 
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        final ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new FragmentCalls(),"Calls");
         adapter.addFragment(new FragmentContacts(),"Contacts");
         adapter.addFragment(new FragmentFav(),"Fav");
 
         viewPager.setAdapter(adapter);
+        viewPager.setCurrentItem(1);
         tabLayout.setupWithViewPager(viewPager);
 
         for (int i=0 ;i<tabLayout.getTabCount();i++){

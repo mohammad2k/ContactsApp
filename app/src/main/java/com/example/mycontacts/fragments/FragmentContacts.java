@@ -139,16 +139,17 @@ public class FragmentContacts extends Fragment implements ContactsRvAdapter.OnBt
             list.get(position).setStar(true);
             MyPreferenceManager.getInstance(getActivity()).putContactList(list);
             starBtn.setBackgroundResource(R.drawable.ic_star_24dp);
-            adapter.notifyDataSetChanged();
             startContactController();
+            adapter.notifyDataSetChanged();
+
 
         }else {
 
             list.get(position).setStar(false);
             MyPreferenceManager.getInstance(getActivity()).putContactList(list);
             starBtn.setBackgroundResource(R.drawable.ic_star_border_24dp);
-            adapter.notifyDataSetChanged();
             startContactController();
+            adapter.notifyDataSetChanged();
 
         }
 
@@ -178,4 +179,6 @@ public class FragmentContacts extends Fragment implements ContactsRvAdapter.OnBt
         recyclerView = view.findViewById(R.id.rv_contacts);
         btnAddContact = view.findViewById(R.id.btn_add_contact);startContactController();
     }
+
+
 }
