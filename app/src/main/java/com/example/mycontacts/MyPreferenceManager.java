@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 
 import com.example.mycontacts.models.ModelCalls;
 import com.example.mycontacts.models.ModelContacts;
+import com.example.mycontacts.models.ModelFav;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -50,6 +51,21 @@ public class MyPreferenceManager {
 
     }
 
+    //===================================================================
 
+    public void putFavList(ModelFav modelFav){
+        Gson gson = new Gson();
+        String favListJson = gson.toJson(modelFav , ModelFav.class);
+        editor.putString("fav_list",favListJson);
+        editor.apply();
+    }
 
+    public ModelFav getFavList(){
+        String favListJson = sharedPreferences.getString("fav_list",null);
+        if (favListJson == null){
+            return new ModelFav();
+        }
+        Gson gson = new Gson();
+        return gson.fromJson(favListJson,ModelFav.class);
+    }
 }
