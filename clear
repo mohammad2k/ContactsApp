@@ -1,0 +1,65 @@
+[33mcommit 30d37f17c23b6c7b9f55cec98a40cc7343fcf561[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31mcontactsApp/master[m[33m)[m
+Author: Mohammad <hacker.m2h@gmail.com>
+Date:   Fri Jan 17 23:49:05 2020 +0330
+
+    open app in contact fragment
+
+[33mcommit f533596a5ee0d71edd4ab14de2a878d5ce320610[m
+Author: Mohammad <hacker.m2h@gmail.com>
+Date:   Fri Jan 17 21:20:17 2020 +0330
+
+    set call button for favourites fragment
+
+[33mcommit a64e88e939386af3e5ecf612392d9e4f8359939d[m
+Author: Mohammad <hacker.m2h@gmail.com>
+Date:   Fri Jan 17 21:04:57 2020 +0330
+
+    show star contacts in fav fragment
+
+[33mcommit 16ce3e1792ca2cf5537a0dee3d8061ae2d9723e4[m
+Author: Mohammad <hacker.m2h@gmail.com>
+Date:   Fri Jan 17 15:38:06 2020 +0330
+
+    save star contacts to prefrence
+
+[33mcommit 42ed0be6d5e43e90cbb617956a3e98f9446d3fc4[m
+Author: Mohammad <hacker.m2h@gmail.com>
+Date:   Fri Jan 17 11:44:06 2020 +0330
+
+    add put and get contacts to prefrence
+
+[33mcommit 9a2ff92d9f3704dca27ae3aa0efc562051dd1e1b[m
+Author: Mohammad <hacker.m2h@gmail.com>
+Date:   Thu Jan 16 15:34:00 2020 +0330
+
+    make prefreance manager
+
+[33mcommit 0a72344cb8568e20780f7adf9729eec2b851cb40[m
+Author: Mohammad <hacker.m2h@gmail.com>
+Date:   Thu Jan 16 11:42:52 2020 +0330
+
+    make star btn listener
+
+[33mcommit bda15e1537615283d03a0f40a2452c56d4e8143c[m
+Author: Mohammad <hacker.m2h@gmail.com>
+Date:   Thu Jan 16 11:03:46 2020 +0330
+
+    add star icon to contact items
+
+[33mcommit 7b1c1bcb1a440814c40906a540ca8614a9f28c42[m
+Author: mohammad2k <59888740+mohammad2k@users.noreply.github.com>
+Date:   Wed Jan 15 12:16:26 2020 +0330
+
+    Create README
+
+[33mcommit 8c2295aafcdde5988c79aac09364738a14577aaa[m
+Author: Mohammad <hacker.m2h@gmail.com>
+Date:   Tue Jan 14 21:35:01 2020 +0330
+
+    add vcs.xml to project
+
+[33mcommit 56b389c209253747f3d9670088469148a6b5d4f3[m
+Author: Mohammad <hacker.m2h@gmail.com>
+Date:   Fri Jan 10 21:06:34 2020 +0330
+
+    version 1

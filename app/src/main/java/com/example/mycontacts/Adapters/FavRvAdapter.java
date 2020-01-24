@@ -1,6 +1,7 @@
 package com.example.mycontacts.Adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,29 +39,21 @@ public class FavRvAdapter extends RecyclerView.Adapter<FavRvAdapter.ViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(@NonNull FavRvAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull FavRvAdapter.ViewHolder holder, int position ) {
 
         TextView fav_name , fav_number;
-
         fav_name= holder.fav_name;
         fav_number= holder.fav_number;
-        if (listContacts.get(position).getStar() == true){
-            fav_name.setText(listContacts.get(position).getName());
-            fav_number.setText(listContacts.get(position).getNumber());
-        }else {
 
-        }
+        Log.d("TAG", "position ::" + position);
+        fav_name.setText(listContacts.get(position).getName());
+        fav_number.setText(listContacts.get(position).getNumber());
+
     }
 
     @Override
     public int getItemCount() {
-        int size = 0;
-        for (int i=0 ; i < listContacts.size() ; i++){
-            if (listContacts.get(i).getStar() == true){
-                size++;
-            }
-        }
-        return size;
+        return listContacts.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

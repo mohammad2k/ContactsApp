@@ -1,7 +1,5 @@
 package com.example.mycontacts.models;
 
-import android.widget.Button;
-
 public class ModelContacts {
 
     private String name,number;

@@ -2,6 +2,7 @@ package com.example.mycontacts.fragments;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
@@ -28,6 +29,7 @@ import com.example.mycontacts.Adapters.ContactsRvAdapter;
 import com.example.mycontacts.MyPreferenceManager;
 import com.example.mycontacts.R;
 import com.example.mycontacts.models.ModelContacts;
+import com.example.mycontacts.models.ModelFav;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +65,6 @@ public class FragmentContacts extends Fragment implements ContactsRvAdapter.OnBt
     private void startContactController(){
 
         if (MyPreferenceManager.getInstance(getActivity()).getContactList() == null){
-
             setContactsAdapter();
         }else {
 
@@ -131,25 +132,37 @@ public class FragmentContacts extends Fragment implements ContactsRvAdapter.OnBt
     public void onBtnStarClick(String number, String name , int position, Button starBtn) {
 
         List<ModelContacts> list = MyPreferenceManager.getInstance(getActivity()).getContactList();
-
-        Log.d("TAG","Name : " + name + " Number : " + number + "star : " + list.get(position).getStar());
+        ModelFav favListObject = MyPreferenceManager.getInstance(getActivity()).getFavList();
 
         if (list.get(position).getStar() == false){
 
             list.get(position).setStar(true);
+
+            ModelContacts newFav = new ModelContacts(name,number,true);
+            favListObject.addContacttoList(newFav);
+            MyPreferenceManager.getInstance(getActivity()).putFavList(favListObject);
+
             MyPreferenceManager.getInstance(getActivity()).putContactList(list);
             starBtn.setBackgroundResource(R.drawable.ic_star_24dp);
-            startContactController();
-            adapter.notifyDataSetChanged();
-
 
         }else {
 
             list.get(position).setStar(false);
+
+            for (int i =0 ; i< favListObject.getFavList().size() ; i++){
+
+                if (favListObject.getFavList().get(i).getName().equals(name)){
+
+                    favListObject.getFavList().remove(i);
+                    MyPreferenceManager.getInstance(getActivity()).putFavList(favListObject);
+
+                }
+
+            }
+
             MyPreferenceManager.getInstance(getActivity()).putContactList(list);
             starBtn.setBackgroundResource(R.drawable.ic_star_border_24dp);
-            startContactController();
-            adapter.notifyDataSetChanged();
+
 
         }
 

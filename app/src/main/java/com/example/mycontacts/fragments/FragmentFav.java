@@ -2,9 +2,11 @@ package com.example.mycontacts.fragments;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.pm.ModuleInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +22,10 @@ import com.example.mycontacts.Adapters.ContactsRvAdapter;
 import com.example.mycontacts.Adapters.FavRvAdapter;
 import com.example.mycontacts.MyPreferenceManager;
 import com.example.mycontacts.R;
+import com.example.mycontacts.models.ModelContacts;
+import com.example.mycontacts.models.ModelFav;
+
+import java.util.List;
 
 public class FragmentFav extends Fragment implements FavRvAdapter.OnBtnCallFavListener {
 
@@ -49,7 +55,9 @@ public class FragmentFav extends Fragment implements FavRvAdapter.OnBtnCallFavLi
         RecyclerView.LayoutManager layoutManager = linearLayoutManager;
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new FavRvAdapter(getContext(), MyPreferenceManager.getInstance(getActivity()).getContactList(),this);
+        ModelFav favListObject = MyPreferenceManager.getInstance(getActivity()).getFavList();
+
+        adapter = new FavRvAdapter(getContext(), favListObject.getFavList() ,this);
         recyclerView.setAdapter(adapter);
 
     }
