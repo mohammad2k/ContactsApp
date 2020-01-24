@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -78,5 +79,15 @@ public class FragmentFav extends Fragment implements FavRvAdapter.OnBtnCallFavLi
         intent.setData(Uri.parse("tel:" + number));
         getActivity().startActivity(intent);
 
+    }
+
+    //برای ابدیت کردن فرگمنت
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser){
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            ft.detach(FragmentFav.this).attach(FragmentFav.this).commit();
+        }
     }
 }

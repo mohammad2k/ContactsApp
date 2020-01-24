@@ -22,6 +22,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -133,5 +134,15 @@ public class FragmentCalls extends Fragment implements CallsRvAdapter.OnBtnCallL
         intent.setData(Uri.parse("tel:" + number));
         getActivity().startActivity(intent);
 
+    }
+
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser){
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            ft.detach(FragmentCalls.this).attach(FragmentCalls.this).commit();
+        }
     }
 }

@@ -9,12 +9,17 @@ import androidx.viewpager.widget.ViewPager;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.mycontacts.Adapters.ViewPagerAdapter;
 import com.example.mycontacts.fragments.FragmentCalls;
 import com.example.mycontacts.fragments.FragmentContacts;
 import com.example.mycontacts.fragments.FragmentFav;
 import com.google.android.material.tabs.TabLayout;
+
+import java.lang.reflect.Method;
 
 public class MainActivity extends AppCompatActivity {
 
