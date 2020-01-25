@@ -42,9 +42,9 @@ public class MainActivity extends AppCompatActivity {
     private void setViewPagerAdapter(){
 
         final ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new FragmentCalls(),"Calls");
+        adapter.addFragment(new FragmentCalls(),"Call Logs");
         adapter.addFragment(new FragmentContacts(),"Contacts");
-        adapter.addFragment(new FragmentFav(),"Fav");
+        adapter.addFragment(new FragmentFav(),"Favourites");
 
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(1);
