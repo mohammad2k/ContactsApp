@@ -115,7 +115,7 @@ public class FragmentCalls extends Fragment implements CallsRvAdapter.OnBtnCallL
                     week_day + " " + mnth_day + " " + month + " " + year ,time,cursor.getString(name)));
 
 
-            Log.d("TAG","ok shod " + cursor.getString(number));
+            Log.d("TAG","ok shod " + cursor.getString(name));
 
         }
 
@@ -136,11 +136,12 @@ public class FragmentCalls extends Fragment implements CallsRvAdapter.OnBtnCallL
 
     }
 
-
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser){
+
+//            setCallAdapter();
             FragmentTransaction ft = getFragmentManager().beginTransaction();
             ft.detach(FragmentCalls.this).attach(FragmentCalls.this).commit();
         }

@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,7 +29,7 @@ import com.example.mycontacts.models.ModelFav;
 
 import java.util.List;
 
-public class FragmentFav extends Fragment implements FavRvAdapter.OnBtnCallFavListener {
+public class FragmentFav extends Fragment implements FavRvAdapter.OnBtnCallFavListener , FavRvAdapter.OnBtnStarFavListener {
 
     private RecyclerView recyclerView;
     FavRvAdapter adapter;
@@ -58,7 +59,7 @@ public class FragmentFav extends Fragment implements FavRvAdapter.OnBtnCallFavLi
 
         ModelFav favListObject = MyPreferenceManager.getInstance(getActivity()).getFavList();
 
-        adapter = new FavRvAdapter(getContext(), favListObject.getFavList() ,this);
+        adapter = new FavRvAdapter(getContext(), favListObject.getFavList() ,this,this);
         recyclerView.setAdapter(adapter);
 
     }
@@ -81,13 +82,38 @@ public class FragmentFav extends Fragment implements FavRvAdapter.OnBtnCallFavLi
 
     }
 
+    @Override
+    public void onBtnStarClick(String number, String name,int position, Button starBtn) {
+        List<ModelContacts> list = MyPreferenceManager.getInstance(getActivity()).getContactList();
+        ModelFav favListObject = MyPreferenceManager.getInstance(getActivity()).getFavList();
+
+        favListObject.getFavList().remove(position);
+
+        for (int i =0 ; i< list.size() ; i++){
+
+            if (list.get(i).getName().equals(name)){
+
+                list.get(i).setStar(false);
+                MyPreferenceManager.getInstance(getActivity()).putContactList(list);
+
+            }
+
+        }
+
+        MyPreferenceManager.getInstance(getActivity()).putFavList(favListObject);
+        setFavAdapter();
+
+    }
+
+
     //برای ابدیت کردن فرگمنت
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser){
-            FragmentTransaction ft = getFragmentManager().beginTransaction();
-            ft.detach(FragmentFav.this).attach(FragmentFav.this).commit();
+//            FragmentTransaction ft = getFragmentManager().beginTransaction();
+//            ft.detach(FragmentFav.this).attach(FragmentFav.this).commit();
+            setFavAdapter();
         }
     }
 }

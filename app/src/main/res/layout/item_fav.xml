@@ -16,14 +16,14 @@
 
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_weight="8"
+        android:layout_weight="7"
         android:padding="10dp"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/fav_name"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="NAME"
             android:textSize="20sp"
@@ -40,6 +40,14 @@
 
     </LinearLayout>
 
+    <Button
+        android:id="@+id/btn_star_fav"
+        android:background="@drawable/ic_star_24dp"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="35dp"
+        android:layout_gravity="center"
+        android:layout_marginRight="5dp"/>
     <Button
         android:id="@+id/btn_call_fav"
         android:background="@drawable/ic_call_with_24dp"

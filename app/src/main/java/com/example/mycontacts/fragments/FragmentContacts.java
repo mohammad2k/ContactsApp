@@ -58,6 +58,7 @@ public class FragmentContacts extends Fragment implements ContactsRvAdapter.OnBt
 
         findViews(view);
         startContactController();
+//        setContactsAdapter();
         clickOnAddContactBtn();
 
     }
@@ -191,8 +192,7 @@ public class FragmentContacts extends Fragment implements ContactsRvAdapter.OnBt
 
     private void findViews(View view){
         recyclerView = view.findViewById(R.id.rv_contacts);
-        btnAddContact = view.findViewById(R.id.btn_add_contact);startContactController();
+        btnAddContact = view.findViewById(R.id.btn_add_contact);
     }
-
-
+    
 }
